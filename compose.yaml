@@ -1,0 +1,13 @@
+services:
+  expense-tracker-prod:
+    image: expense-tracker-prod:latest
+    container_name: expense-tracker-ui
+    restart: unless-stopped
+    ports:
+      - "8080:80"  # Map host 8080 to container 80
+    networks:
+      - proxy_bridge
+
+networks:
+  proxy_bridge:
+    external: true # Assuming your Cloudflare Tunnel is on a shared network
