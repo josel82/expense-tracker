@@ -1,0 +1,11 @@
+services:
+  app-dev:
+    image: node:20-alpine
+    working_dir: /app        # Standard practice: use /app, not /src
+    volumes:
+      - .:/app               # Maps your whole project folder to /app
+      - /app/node_modules    # Tells Docker to keep node_modules in its own volume
+    ports:
+      - "5173:5173"
+    # Added --host to ensure Vite is accessible outside the container
+    command: sh -c "npm install && npm run dev -- --host"
