@@ -7,7 +7,7 @@ function App() {
   const [previewData, setPreviewData] = useState([]);
   const [status, setStatus] = useState({ type: 'idle', message: '' });
 
-  const n8n_webhook_url = "http://hooks.kernelcloud.work/webhook-test/upload-transactions";
+  const n8n_webhook_url = "https://hooks.kernelcloud.work/webhook/upload-transactions";
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
