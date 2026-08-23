@@ -7,7 +7,7 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve with Nginx
-FROM nginx:stable-alpine
+FROM nginx:stable-alpine 
 # Copy the custom build from the first stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 # Expose port 80
