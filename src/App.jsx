@@ -3,12 +3,16 @@ import Papa from 'papaparse';
 
 function App() {
   const [file, setFile] = useState(null);
-  const [sheetName, setSheetName] = useState(''); // New state for sheet name
+  const [sheetName, setSheetName] = useState('');
   const [previewData, setPreviewData] = useState([]);
   const [status, setStatus] = useState({ type: 'idle', message: '' });
 
+  // Get n8n webhook URL and Auth Token from environment variables
   const n8n_webhook_url = 
-  (window.env && window.env.VITE_N8N_WEBHOOK_URL) || import.meta.env.VITE_N8N_WEBHOOK_URL;
+    (window.env && window.env.VITE_N8N_WEBHOOK_URL) || import.meta.env.VITE_N8N_WEBHOOK_URL;
+  
+  const n8n_auth_token = 
+    (window.env && window.env.VITE_N8N_AUTH_TOKEN) || import.meta.env.VITE_N8N_AUTH_TOKEN;
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -39,14 +43,22 @@ function App() {
 
     const formData = new FormData();
     formData.append('data', file);
-    formData.append('targetSheet', sheetName); // Send the sheet name as a text field
+    formData.append('targetSheet', sheetName);
 
     try {
-      const response = await fetch(n8n_webhook_url, { method: 'POST', body: formData });
+      const response = await fetch(n8n_webhook_url, { 
+        method: 'POST', 
+        body: formData,
+        headers: {
+          // Pass the Bearer token in the headers
+          'Authorization': `Bearer ${n8n_auth_token}`
+        }
+      });
+
       if (response.ok) {
         setStatus({ type: 'success', message: `Uploaded to "${sheetName}" successfully!` });
         setFile(null);
-        setSheetName(''); // Reset field
+        setSheetName('');
         setPreviewData([]);
       } else {
         throw new Error(`Server error: ${response.status}`);
@@ -78,7 +90,6 @@ function App() {
         </div>
       </div>
 
-      {/* Preview Table Section remains the same */}
       {previewData.length > 0 && (
         <div style={{ marginTop: '20px', overflowX: 'auto' }}>
           <h3>Preview (First 5 rows)</h3>

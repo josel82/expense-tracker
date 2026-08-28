@@ -4,7 +4,8 @@
 # Generate runtime environment config for the browser
 cat <<EOF > /usr/share/nginx/html/config.js
 window.env = {
-  VITE_N8N_WEBHOOK_URL: "${VITE_N8N_WEBHOOK_URL}"
+  VITE_N8N_WEBHOOK_URL: "${VITE_N8N_WEBHOOK_URL}",
+  VITE_N8N_AUTH_TOKEN: "${VITE_N8N_AUTH_TOKEN}" 
 };
 EOF
 
