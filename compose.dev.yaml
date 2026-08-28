@@ -7,5 +7,7 @@ services:
       - /app/node_modules    # Tells Docker to keep node_modules in its own volume
     ports:
       - "5173:5173"
+    environment:
+      VITE_N8N_WEBHOOK_URL: "https://hooks.kernelcloud.work/webhook/upload-transactions"
     # Added --host to ensure Vite is accessible outside the container
     command: sh -c "npm install && npm run dev -- --host"
