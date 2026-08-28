@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+
+# Generate runtime environment config for the browser
+cat <<EOF > /usr/share/nginx/html/config.js
+window.env = {
+  VITE_N8N_WEBHOOK_URL: "${VITE_N8N_WEBHOOK_URL}"
+};
+EOF
+
+# Start your web server (e.g., Nginx)
+exec "$@"
